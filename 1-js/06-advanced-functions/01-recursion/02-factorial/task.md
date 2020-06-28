@@ -2,17 +2,17 @@ importance: 4
 
 ---
 
-# Calculate factorial
+# 計算階乘
 
-The [factorial](https://en.wikipedia.org/wiki/Factorial) of a natural number is a number multiplied by `"number minus one"`, then by `"number minus two"`, and so on till `1`. The factorial of `n` is denoted as `n!`
+一個自然數的[階乘](https://zh.wikipedia.org/wiki/%E9%9A%8E%E4%B9%98)等於該數乘上 `"該數減一"` 再乘上 `"該數減二"` 如此類推直到 `1`。`n` 的階乘記做 `n!`。
 
-We can write a definition of factorial like this:
+我們可以將階乘的定義可以寫做：
 
 ```js
-n! = n * (n - 1) * (n - 2) * ...*1
+n! = n * (n - 1) * (n - 2) * ... * 1
 ```
 
-Values of factorials for different `n`:
+不同 `n` 的階乘：
 
 ```js
 1! = 1
@@ -22,10 +22,10 @@ Values of factorials for different `n`:
 5! = 5 * 4 * 3 * 2 * 1 = 120
 ```
 
-The task is to write a function `factorial(n)` that calculates `n!` using recursive calls.
+你的任務是寫一函數 `factorial(n)` 透過遞迴呼叫求 `n!`。
 
 ```js
 alert( factorial(5) ); // 120
 ```
 
-P.S. Hint: `n!` can be written as `n * (n-1)!` For instance: `3! = 3*2! = 3*2*1! = 6`
+附言：提示：`n!` 可以寫做 `n * (n-1)!`，例如：`3! = 3*2! = 3*2*1! = 6`。

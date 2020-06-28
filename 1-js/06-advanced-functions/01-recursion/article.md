@@ -1,18 +1,20 @@
-# Recursion and stack
+# 遞迴與堆疊
 
-Let's return to functions and study them more in-depth.
+讓我們一起回顧函數並更深入地研究它們。
 
-Our first topic will be *recursion*.
+我們首先要探討的主題是*遞迴*。
 
-If you are not new to programming, then it is probably familiar and you could skip this chapter.
+如果你曾接觸過程式設計，你可能對此不陌生，可以考慮跳過這一章。
 
 Recursion is a programming pattern that is useful in situations when a task can be naturally split into several tasks of the same kind, but simpler. Or when a task can be simplified into an easy action plus a simpler variant of the same task. Or, as we'll see soon, to deal with certain data structures.
 
-When a function solves a task, in the process it can call many other functions. A partial case of this is when a function calls *itself*. That's called *recursion*.
+當我們遇到的問題可以被自然地拆解為數個同類型但更簡單的子問題、或者被視為一個同類型但更簡單的子問題配上一個非同類但特別簡單的子問題、或者，則遞迴將是一個合適的設計模式。
 
-## Two ways of thinking
+一個函數在處理問題的過程中可以呼叫更多函數，特別地，一個函數可以呼叫*自己*，這就稱作*遞迴*。
 
-For something simple to start with -- let's write a function `pow(x, n)` that raises `x` to a natural power of `n`. In other words, multiplies `x` by itself `n` times.
+## 兩種思路
+
+簡單起見，我們來實現冪函數 `pow(x, n)`，它會計算 `x` 的 `n` 次冪，也就是將 `x` 自乘 `n` 次。
 
 ```js
 pow(2, 2) = 4
@@ -20,15 +22,16 @@ pow(2, 3) = 8
 pow(2, 4) = 16
 ```
 
-There are two ways to implement it.
+冪函數的實作有兩種。
 
-1. Iterative thinking: the `for` loop:
+1. 迭代的思路：`for` 迴圈：
+
 
     ```js run
     function pow(x, n) {
       let result = 1;
 
-      // multiply result by x n times in the loop
+      // 於每一層迴圈（共 n 層）將 result 乘以 x
       for (let i = 0; i < n; i++) {
         result *= x;
       }
@@ -39,7 +42,7 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-2. Recursive thinking: simplify the task and call self:
+2. 遞迴的思路：簡化問題並呼叫自己：
 
     ```js run
     function pow(x, n) {
@@ -53,9 +56,9 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-Please note how the recursive variant is fundamentally different.
+請注意遞迴跟迭代本質上的區別。
 
-When `pow(x, n)` is called, the execution splits into two branches:
+當 `pow(x, n)` 被呼叫時，有兩個執行途徑（分支）。
 
 ```js
               if n==1  = x
@@ -65,27 +68,36 @@ pow(x, n) =
               else     = x * pow(x, n - 1)
 ```
 
-1. If `n == 1`, then everything is trivial. It is called *the base* of recursion, because it immediately produces the obvious result: `pow(x, 1)` equals `x`.
-2. Otherwise, we can represent `pow(x, n)` as `x * pow(x, n - 1)`. In maths, one would write <code>x<sup>n</sup> = x * x<sup>n-1</sup></code>. This is called *a recursive step*: we transform the task into a simpler action (multiplication by `x`) and a simpler call of the same task (`pow` with lower `n`). Next steps simplify it further and further until `n` reaches `1`.
+1. 若 `n == 1`，情況特別簡單。這個分支稱作遞迴的*基楚支*，因為它是這個問題最簡單的形式：`pow(x, 1)` 即 `x`。
+
+2. 否則，`pow(x, n)` 總可以退化為 `x * pow(x, n - 1)`，用常見的數學符號表示即 <code>x<sup>n</sup> = x * x<sup>n-1</sup></code> 。這個分支稱作遞迴的*遞迴支*：我們將問題改寫為一個很單純的運算（乘以x）和一個同類型但更簡單的問題（計算更小的次冪）。之後的幾次遞迴將不斷簡化問題直至 `n` 降為 `1`。
 
 We can also say that `pow` *recursively calls itself* till `n == 1`.
+
+我們也可以說 `pow` *遞迴地呼叫自己* 直至 `n == 1`。
 
 ![recursive diagram of pow](recursion-pow.svg)
 
 
 For example, to calculate `pow(2, 4)` the recursive variant does these steps:
 
+例如，遞迴版本的實作在計算 `pow(2, 4)` 的過程中執行了：
+
 1. `pow(2, 4) = 2 * pow(2, 3)`
 2. `pow(2, 3) = 2 * pow(2, 2)`
 3. `pow(2, 2) = 2 * pow(2, 1)`
 4. `pow(2, 1) = 2`
 
-So, the recursion reduces a function call to a simpler one, and then -- to even more simpler, and so on, until the result becomes obvious.
+故，遞迴將一個函數呼叫簡化成更簡單的函數呼叫，再將之進一步簡化，以此類推，直到結果變得顯然。
 
-````smart header="Recursion is usually shorter"
+````smart header="遞迴通常更短"
 A recursive solution is usually shorter than an iterative one.
 
+遞迴版本的實作通常比迭代的短。
+
 Here we can rewrite the same using the conditional operator `?` instead of `if` to make `pow(x, n)` more terse and still very readable:
+
+承接上例，我們可以用條件運算元 `?` 取代 `if` 使 `pow(x, n)` 更加精煉又不失可讀性。
 
 ```js run
 function pow(x, n) {
@@ -94,36 +106,36 @@ function pow(x, n) {
 ```
 ````
 
-The maximal number of nested calls (including the first one) is called *recursion depth*. In our case, it will be exactly `n`.
+巢狀呼叫次數（包含首次）的上限稱作*遞迴深度*。此例中，遞迴深度是 `n`。
 
-The maximal recursion depth is limited by JavaScript engine. We can rely on it being 10000, some engines allow more, but 100000 is probably out of limit for the majority of them. There are automatic optimizations that help alleviate this ("tail calls optimizations"), but they are not yet supported everywhere and work only in simple cases.
+遞迴深度受限於 JavaScript 引擎。10000 是遞迴深度的可靠估計，雖然有些引擎支援更多，但多數引擎的支援比 10000 少。有些引擎的自動優化 ("tail calls optimizations") 可以避開遞迴深度的限制，但這類技術的支援還不夠廣泛且只適用於簡單的情境。
 
-That limits the application of recursion, but it still remains very wide. There are many tasks where recursive way of thinking gives simpler code, easier to maintain.
+這在某個程度上限制了遞迴的應用，但事實上遞迴的應用依然很廣。對於很多問題，遞迴的思維使程式碼更簡潔、更易維護。
 
-## The execution context and stack
+## 執行脈絡與堆疊
 
-Now let's examine how recursive calls work. For that we'll look under the hood of functions.
+現在我們來檢視遞迴呼叫如何運作。為此，我們先檢視函數的運作原理。
 
-The information about the process of execution of a running function is stored in its *execution context*.
+關於一個函數執行過程的資訊存於其*執行脈絡*中。
 
-The [execution context](https://tc39.github.io/ecma262/#sec-execution-contexts) is an internal data structure that contains details about the execution of a function: where the control flow is now, the current variables, the value of `this` (we don't use it here) and few other internal details.
+[執行脈絡](https://tc39.github.io/ecma262/#sec-execution-contexts) 是一種內部資料結構，它存有一個函數執行的細節：控制流程當前的進度、現有的變數、`this` 的值（我們暫且不提）以及其他一些內部細節。
 
-One function call has exactly one execution context associated with it.
+一個函數呼叫洽對應到一個執行脈絡。
 
-When a function makes a nested call, the following happens:
+若當前函數發起一個巢狀呼叫，將觸發以下事件：
 
-- The current function is paused.
-- The execution context associated with it is remembered in a special data structure called *execution context stack*.
-- The nested call executes.
-- After it ends, the old execution context is retrieved from the stack, and the outer function is resumed from where it stopped.
+- 暫停當前函數的執行。
+- 將當前函數的執行脈絡存於一個叫*執行脈絡堆疊*的特殊資料結構中。
+- 執行巢狀呼叫。
+- 當巢狀呼叫執行完成，從執行脈絡堆疊中取出發起該巢狀呼叫的函數執行脈絡，並恢復其執行。
 
-Let's see what happens during the `pow(2, 3)` call.
+我們來觀察呼叫 `pow(2, 3)` 會發生什麼事。
 
 ### pow(2, 3)
 
-In the beginning of the call `pow(2, 3)` the execution context will store variables: `x = 2, n = 3`, the execution flow is at line `1` of the function.
+呼叫 `pow(2, 3)` 的一開始，其執行脈絡存有變數：`x = 2, n = 3`，以及執行流程達到函數的第 `1` 行。
 
-We can sketch it as:
+可以如此描述：
 
 <ul class="function-execution-context-list">
   <li>
@@ -132,7 +144,7 @@ We can sketch it as:
   </li>
 </ul>
 
-That's when the function starts to execute. The condition `n == 1` is false, so the flow continues into the second branch of `if`:
+那是當函數剛開始執行時的情況。因為 `n == 1` 不成立，所以流程會進入 `if` 的第二個分支：
 
 ```js run
 function pow(x, n) {
@@ -149,7 +161,7 @@ alert( pow(2, 3) );
 ```
 
 
-The variables are same, but the line changes, so the context is now:
+變數的值沒變，但流程向前推進了，故，執行脈絡變成：
 
 <ul class="function-execution-context-list">
   <li>
@@ -158,19 +170,19 @@ The variables are same, but the line changes, so the context is now:
   </li>
 </ul>
 
-To calculate `x * pow(x, n - 1)`, we need to make a subcall of `pow` with new arguments `pow(2, 2)`.
+為計算 `x * pow(x, n - 1)`，我們必須巢狀呼叫被傳入新參數的 `pow` 即 `pow(2, 2)`。
 
 ### pow(2, 2)
 
-To do a nested call, JavaScript remembers the current execution context in the *execution context stack*.
+為了巢狀呼叫，JavaScript 會將當前的執行脈絡存入*執行脈絡堆疊*。
 
-Here we call the same function `pow`, but it absolutely doesn't matter. The process is the same for all functions:
+此例中我們呼叫同一個函數 `pow`，但這不要緊，不論呼叫哪個函數這個過程依舊是：
 
-1. The current context is "remembered" on top of the stack.
-2. The new context is created for the subcall.
-3. When the subcall is finished -- the previous context is popped from the stack, and its execution continues.
+1. 當前的執行脈絡被記錄在執行脈絡堆疊頂端。
+2. 為巢狀呼叫產生一個新的執行脈絡。
+3. 當巢狀呼叫完成，從執行脈絡堆疊取出先前的執行脈絡，並恢復先前函數的執行。
 
-Here's the context stack when we entered the subcall `pow(2, 2)`:
+巢狀呼叫 `pow(2, 2)` 會更新執行脈絡堆疊：
 
 <ul class="function-execution-context-list">
   <li>
@@ -183,21 +195,21 @@ Here's the context stack when we entered the subcall `pow(2, 2)`:
   </li>
 </ul>
 
-The new current execution context is on top (and bold), and previous remembered contexts are below.
+新的執行脈絡在上（粗體），先前存入的執行脈絡在下。
 
-When we finish the subcall -- it is easy to resume the previous context, because it keeps both variables and the exact place of the code where it stopped.
+當巢狀呼叫執行完成，要恢復之前的執行相當容易，因為執行脈絡存有那兩個變數和之前停下時的流程進度。
 
 ```smart
-Here in the picture we use the word "line", as our example there's only one subcall in line, but generally a single line of code may contain multiple subcalls, like `pow(…) + pow(…) + somethingElse(…)`.
+在之前幾張執行脈絡堆疊的示意圖中，我們之所以使用 "行" ("line") 表示流程進度是因為在此例中，每行程式碼至多只有一個巢狀呼叫，但一般而言，一行程式碼可能包含數個巢狀呼叫，如 `pow(…) + pow(…) + somethingElse(…)`。
 
-So it would be more precise to say that the execution resumes "immediately after the subcall".
+故，說執行是 "立即於巢狀呼叫完成後" 恢復的會更準確。
 ```
 
 ### pow(2, 1)
 
-The process repeats: a new subcall is made at line `5`, now with arguments `x=2`, `n=1`.
+重複此過程：於第 `5` 行發起新的巢狀呼叫，這次變數是 `x=2, n=1`。
 
-A new execution context is created, the previous one is pushed on top of the stack:
+產生一個新的執行脈絡，並將先前的執行脈絡加入執行脈絡堆疊頂端：
 
 <ul class="function-execution-context-list">
   <li>
@@ -214,11 +226,11 @@ A new execution context is created, the previous one is pushed on top of the sta
   </li>
 </ul>
 
-There are 2 old contexts now and 1 currently running for `pow(2, 1)`.
+現在有兩個舊的執行脈絡和當前 `pow(2, 1)` 的執行脈絡。
 
-### The exit
+### 退離
 
-During the execution of `pow(2, 1)`, unlike before, the condition `n == 1` is truthy, so the first branch of `if` works:
+執行 `pow(2, 1)` 時，有別於故，`n == 1` 是個 truthy 條件，所以流程會進入 `if` 的第一個分支：
 
 ```js
 function pow(x, n) {
@@ -232,10 +244,9 @@ function pow(x, n) {
 }
 ```
 
-There are no more nested calls, so the function finishes, returning `2`.
+再也沒有巢狀呼叫了，函數退離並 `2` 回傳。
 
-As the function finishes, its execution context is not needed anymore, so it's removed from the memory. The previous one is restored off the top of the stack:
-
+隨著函數退離，其執行脈絡將不再被需要，因此被從記憶體中移除。從堆疊頂端取回先前的執行脈絡。
 
 <ul class="function-execution-context-list">
   <li>
@@ -248,9 +259,9 @@ As the function finishes, its execution context is not needed anymore, so it's r
   </li>
 </ul>
 
-The execution of `pow(2, 2)` is resumed. It has the result of the subcall `pow(2, 1)`, so it also can finish the evaluation of `x * pow(x, n - 1)`, returning `4`.
+恢復 `pow(2, 2)` 的執行。它有了巢狀呼叫 `pow(2, 1)` 的結果，因此可以完成運算 `x * pow(x, n - 1)` 並回傳 `4`。
 
-Then the previous context is restored:
+然後，再更之前的執行脈絡被取回：
 
 <ul class="function-execution-context-list">
   <li>
@@ -259,15 +270,15 @@ Then the previous context is restored:
   </li>
 </ul>
 
-When it finishes, we have a result of `pow(2, 3) = 8`.
+當它退離，我們便有結果 `pow(2, 3) = 8`。
 
-The recursion depth in this case was: **3**.
+此例的遞迴深度是：**3**。
 
-As we can see from the illustrations above, recursion depth equals the maximal number of context in the stack.
+由上述可知，遞迴深度等同堆疊中執行脈絡的最大數量。
 
-Note the memory requirements. Contexts take memory. In our case, raising to the power of `n` actually requires the memory for `n` contexts, for all lower values of `n`.
+請注意記憶體需求。執行脈絡占用記憶體。此例中，計算 `n` 次冪共消耗了 `n` 個執行脈絡所需的空間，分別對應到一個不超過 `n` 的自然數。
 
-A loop-based algorithm is more memory-saving:
+基於迴圈的算法更省記憶體：
 
 ```js
 function pow(x, n) {
@@ -281,19 +292,25 @@ function pow(x, n) {
 }
 ```
 
-The iterative `pow` uses a single context changing `i` and `result` in the process. Its memory requirements are small, fixed and do not depend on `n`.
+基於迭代的 `pow` 只需要一個執行脈絡用於修改 `i` 和 `result`。記憶體要求低且固定，並不依賴於 `n`。
 
-**Any recursion can be rewritten as a loop. The loop variant usually can be made more effective.**
+**遞迴都可已改寫成迴圈。基於迴圈的實作通常較有效。**
 
 ...But sometimes the rewrite is non-trivial, especially when function uses different recursive subcalls depending on conditions and merges their results or when the branching is more intricate. And the optimization may be unneeded and totally not worth the efforts.
 
-Recursion can give a shorter code, easier to understand and support. Optimizations are not required in every place, mostly we need a good code, that's why it's used.
+...但有時候重寫不容易，特別是當
 
-## Recursive traversals
+基於遞迴的程式碼一般都較短、易懂、且易於維護。我們不需要處處優化，需要的更多是優良的程式碼，這也是為什麼遞迴會被使用。
+
+## 遞迴巡訪
 
 Another great application of the recursion is a recursive traversal.
 
+遞迴的另一重大應用便是遞迴巡訪。
+
 Imagine, we have a company. The staff structure can be presented as an object:
+
+想像我們有家公司，人力組織可表示為一個物件：
 
 ```js
 let company = {
@@ -323,6 +340,8 @@ let company = {
 ```
 
 In other words, a company has departments.
+
+換句話說，一個公司有多個部門。
 
 - A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
 - Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.

@@ -1,4 +1,4 @@
-The solution using a loop:
+迴圈解：
 
 ```js run
 function sumTo(n) {
@@ -12,7 +12,7 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-The solution using recursion:
+遞迴解：
 
 ```js run
 function sumTo(n) {
@@ -23,7 +23,7 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-The solution using the formula: `sumTo(n) = n*(n+1)/2`:
+公式解: `sumTo(n) = n*(n+1)/2`:
 
 ```js run
 function sumTo(n) {
@@ -33,8 +33,9 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-P.S. Naturally, the formula is the fastest solution. It uses only 3 operations for any number `n`. The math helps!
+附言：顯然公式解的執行速度最快？對任何 `n` 它只用三個運算。數學幫了大忙！
 
-The loop variant is the second in terms of speed. In both the recursive and the loop variant we sum the same numbers. But the recursion involves nested calls and execution stack management. That also takes resources, so it's slower.
+迴圈解的執行速度次之。遞迴解與迴圈解皆需累加相同的數字，但是遞迴牽涉到巢狀呼叫和執行脈絡堆疊的維護，這會消耗資源，執行速度也就更慢。
 
-P.P.S. Some engines support the "tail call" optimization: if a recursive call is the very last one in the function (like in `sumTo` above), then the outer function will not need to resume the execution, so the engine doesn't need to remember its execution context. That removes the burden on memory, so counting `sumTo(100000)` becomes possible. But if the JavaScript engine does not support tail call optimization (most of them don't), there will be an error: maximum stack size exceeded, because there's usually a limitation on the total stack size.
+
+附附言：某些引擎支援 "tail call" 優化：若函數的最後一行是遞迴呼叫（如上述的 `sumTo`），外層函數將不須恢復執行，引擎也就不用記錄其執行脈絡，這便減輕了記憶體的負擔，所以 `sumTo(100000)` 行得通。要是 JavaScript 引擎不支援 "tail call" 優化（大多不支援），將引發錯誤：堆疊上限溢位，因為堆疊大小通常都會設限。

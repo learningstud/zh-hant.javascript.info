@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Sum all numbers till the given one
+# 遞進累加至某數
 
-Write a function `sumTo(n)` that calculates the sum of numbers `1 + 2 + ... + n`.
+寫一函數 `sumTo(n)` 求級數 `1 + 2 + ... + n`。
 
-For instance:
+示意：
 
 ```js no-beautify
 sumTo(1) = 1
@@ -17,20 +17,20 @@ sumTo(4) = 4 + 3 + 2 + 1 = 10
 sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050
 ```
 
-Make 3 solution variants:
+請提出三種解法：
 
-1. Using a for loop.
-2. Using a recursion, cause `sumTo(n) = n + sumTo(n-1)` for `n > 1`.
-3. Using the [arithmetic progression](https://en.wikipedia.org/wiki/Arithmetic_progression) formula.
+1. 使用 `for` 迴圈。
+2. 使用遞迴，對 `n > 1` 算 `sumTo(n) = n + sumTo(n-1)`。
+3. 使用[等差數列](https://zh.wikipedia.org/wiki/%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97)求和公式。
 
-An example of the result:
+輸出範例：
 
 ```js
-function sumTo(n) { /*... your code ... */ }
+function sumTo(n) { /*... 你的程式碼 ... */ }
 
 alert( sumTo(100) ); // 5050
 ```
 
-P.S. Which solution variant is the fastest? The slowest? Why?
+附言：哪種解法執行最快？最慢？為何？
 
-P.P.S. Can we use recursion to count `sumTo(100000)`? 
+附附言：我們能用遞迴解求 `sumTo(100000)` 嗎？

@@ -1,6 +1,6 @@
-The first solution we could try here is the recursive one.
+我們可以先試著用遞迴解。
 
-Fibonacci numbers are recursive by definition:
+斐波那契數的遞迴定義為：
 
 ```js run
 function fib(n) {
@@ -9,7 +9,7 @@ function fib(n) {
 
 alert( fib(3) ); // 2
 alert( fib(7) ); // 13
-// fib(77); // will be extremely slow!
+// fib(77); // 會很慢！
 ```
 
 ...But for big values of `n` it's very slow. For instance, `fib(77)` may hang up the engine for some time eating all CPU resources.
